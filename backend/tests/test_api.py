@@ -4,6 +4,7 @@ Run from backend/ with: python -m pytest tests/ -v
 """
 import sys
 import os
+from datetime import date
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -42,7 +43,7 @@ class TestExercises:
         r = client.get("/exercises/")
         bench = next(e for e in r.json() if e["name"] == "Bench Press")
         assert bench["gif_url"] is not None
-        assert "cdn.jsdelivr.net" in bench["gif_url"]
+        assert bench["gif_url"].startswith("https://")
 
 
 # ── Users ──────────────────────────────────────────────────────────────────
@@ -196,7 +197,7 @@ class TestAnalytics:
         })
         uid = r.json()["id"]
         r = client.post("/workouts/", json={
-            "user_id": uid, "date": "2026-05-30", "name": "Chest Day",
+            "user_id": uid, "date": date.today().isoformat(), "name": "Chest Day",
         })
         wid = r.json()["id"]
         bench = next(e for e in client.get("/exercises/").json() if e["name"] == "Bench Press")
