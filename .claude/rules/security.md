@@ -1,0 +1,5 @@
+- Never hardcode secrets, tokens, or passwords in any file
+- Never log request bodies that may contain personal health data
+- All user input that reaches the database must go through Pydantic schemas
+- Do not expose internal SQLAlchemy errors to API responses — catch and re-raise as HTTPException
+- The SQLite file (workout.db) must never be committed to git — it is in .gitignore

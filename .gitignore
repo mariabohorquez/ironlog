@@ -1,0 +1,8 @@
+backend/workout.db
+backend/__pycache__/
+backend/routers/__pycache__/
+*.pyc
+.env
+venv/
+.vscode/
+.claude/launch.json

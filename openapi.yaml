@@ -1,0 +1,938 @@
+openapi: 3.1.0
+info:
+  title: Workout Planner API
+  version: 1.0.0
+paths:
+  /users/:
+    get:
+      tags:
+      - users
+      summary: List Users
+      operationId: list_users_users__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserOut'
+                type: array
+                title: Response List Users Users  Get
+    post:
+      tags:
+      - users
+      summary: Create User
+      operationId: create_user_users__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/{user_id}:
+    get:
+      tags:
+      - users
+      summary: Get User
+      operationId: get_user_users__user_id__get
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - users
+      summary: Update User
+      operationId: update_user_users__user_id__put
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /exercises/:
+    get:
+      tags:
+      - exercises
+      summary: List Exercises
+      operationId: list_exercises_exercises__get
+      parameters:
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+      - name: muscle
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Muscle
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExerciseOut'
+                title: Response List Exercises Exercises  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /exercises/{exercise_id}:
+    get:
+      tags:
+      - exercises
+      summary: Get Exercise
+      operationId: get_exercise_exercises__exercise_id__get
+      parameters:
+      - name: exercise_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Exercise Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExerciseOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /workouts/:
+    post:
+      tags:
+      - workouts
+      summary: Create Workout
+      operationId: create_workout_workouts__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkoutCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkoutOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - workouts
+      summary: List Workouts
+      operationId: list_workouts_workouts__get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          title: User Id
+      - name: from_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: From Date
+      - name: to_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: To Date
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkoutOut'
+                title: Response List Workouts Workouts  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /workouts/{workout_id}:
+    get:
+      tags:
+      - workouts
+      summary: Get Workout
+      operationId: get_workout_workouts__workout_id__get
+      parameters:
+      - name: workout_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Workout Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkoutOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - workouts
+      summary: Delete Workout
+      operationId: delete_workout_workouts__workout_id__delete
+      parameters:
+      - name: workout_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Workout Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /workouts/{workout_id}/sets:
+    post:
+      tags:
+      - workouts
+      summary: Add Set
+      operationId: add_set_workouts__workout_id__sets_post
+      parameters:
+      - name: workout_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Workout Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /workouts/sets/{set_id}:
+    delete:
+      tags:
+      - workouts
+      summary: Delete Set
+      operationId: delete_set_workouts_sets__set_id__delete
+      parameters:
+      - name: set_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Set Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /bodyweight/:
+    post:
+      tags:
+      - bodyweight
+      summary: Log Weight
+      operationId: log_weight_bodyweight__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyWeightCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyWeightOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - bodyweight
+      summary: Get Weight Log
+      operationId: get_weight_log_bodyweight__get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          title: User Id
+      - name: from_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: From Date
+      - name: to_date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: To Date
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BodyWeightOut'
+                title: Response Get Weight Log Bodyweight  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /analytics/volume:
+    get:
+      tags:
+      - analytics
+      summary: Muscle Volume
+      description: Returns total sets per muscle slug for the last N days.
+      operationId: muscle_volume_analytics_volume_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          title: User Id
+      - name: days
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 7
+          title: Days
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /analytics/1rm:
+    get:
+      tags:
+      - analytics
+      summary: One Rm Estimates
+      description: Returns estimated 1RM per workout date using 4 formulas.
+      operationId: one_rm_estimates_analytics_1rm_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          title: User Id
+      - name: exercise_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          title: Exercise Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /calories/calculate:
+    post:
+      tags:
+      - calories
+      summary: Calculate Calories
+      operationId: calculate_calories_calories_calculate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalcInput'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalcResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /calories/projection:
+    post:
+      tags:
+      - calories
+      summary: Weight Projection
+      operationId: weight_projection_calories_projection_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectionInput'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectionResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    BodyWeightCreate:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+        date:
+          type: string
+          format: date
+          title: Date
+        weight_kg:
+          type: number
+          title: Weight Kg
+      type: object
+      required:
+      - user_id
+      - date
+      - weight_kg
+      title: BodyWeightCreate
+    BodyWeightOut:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+        date:
+          type: string
+          format: date
+          title: Date
+        weight_kg:
+          type: number
+          title: Weight Kg
+        id:
+          type: integer
+          title: Id
+      type: object
+      required:
+      - user_id
+      - date
+      - weight_kg
+      - id
+      title: BodyWeightOut
+    CalcInput:
+      properties:
+        weight_kg:
+          type: number
+          title: Weight Kg
+        height_cm:
+          type: number
+          title: Height Cm
+        age:
+          type: integer
+          title: Age
+        sex:
+          type: string
+          title: Sex
+        activity_level:
+          type: number
+          title: Activity Level
+        body_fat_pct:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Body Fat Pct
+      type: object
+      required:
+      - weight_kg
+      - height_cm
+      - age
+      - sex
+      - activity_level
+      title: CalcInput
+    CalcResult:
+      properties:
+        mifflin_bmr:
+          type: number
+          title: Mifflin Bmr
+        harris_bmr:
+          type: number
+          title: Harris Bmr
+        katch_bmr:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Katch Bmr
+        mifflin_tdee:
+          type: number
+          title: Mifflin Tdee
+        harris_tdee:
+          type: number
+          title: Harris Tdee
+        katch_tdee:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Katch Tdee
+      type: object
+      required:
+      - mifflin_bmr
+      - harris_bmr
+      - katch_bmr
+      - mifflin_tdee
+      - harris_tdee
+      - katch_tdee
+      title: CalcResult
+    ExerciseOut:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        category:
+          type: string
+          title: Category
+        primary_muscles:
+          type: string
+          title: Primary Muscles
+        secondary_muscles:
+          type: string
+          title: Secondary Muscles
+        gif_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Gif Url
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - id
+      - name
+      - category
+      - primary_muscles
+      - secondary_muscles
+      - gif_url
+      - description
+      title: ExerciseOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ProjectionInput:
+      properties:
+        current_weight_kg:
+          type: number
+          title: Current Weight Kg
+        target_weight_kg:
+          type: number
+          title: Target Weight Kg
+        weekly_change_kg:
+          type: number
+          title: Weekly Change Kg
+        tdee:
+          type: number
+          title: Tdee
+      type: object
+      required:
+      - current_weight_kg
+      - target_weight_kg
+      - weekly_change_kg
+      - tdee
+      title: ProjectionInput
+    ProjectionResult:
+      properties:
+        daily_delta_kcal:
+          type: number
+          title: Daily Delta Kcal
+        weeks_to_target:
+          type: number
+          title: Weeks To Target
+        target_date:
+          type: string
+          format: date
+          title: Target Date
+        daily_intake_goal:
+          type: number
+          title: Daily Intake Goal
+      type: object
+      required:
+      - daily_delta_kcal
+      - weeks_to_target
+      - target_date
+      - daily_intake_goal
+      title: ProjectionResult
+    SetCreate:
+      properties:
+        exercise_id:
+          type: integer
+          title: Exercise Id
+        set_number:
+          type: integer
+          title: Set Number
+        reps:
+          type: integer
+          title: Reps
+        weight_kg:
+          type: number
+          title: Weight Kg
+        rpe:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rpe
+      type: object
+      required:
+      - exercise_id
+      - set_number
+      - reps
+      - weight_kg
+      title: SetCreate
+    SetOut:
+      properties:
+        exercise_id:
+          type: integer
+          title: Exercise Id
+        set_number:
+          type: integer
+          title: Set Number
+        reps:
+          type: integer
+          title: Reps
+        weight_kg:
+          type: number
+          title: Weight Kg
+        rpe:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rpe
+        id:
+          type: integer
+          title: Id
+        workout_id:
+          type: integer
+          title: Workout Id
+        exercise:
+          $ref: '#/components/schemas/ExerciseOut'
+      type: object
+      required:
+      - exercise_id
+      - set_number
+      - reps
+      - weight_kg
+      - id
+      - workout_id
+      - exercise
+      title: SetOut
+    UserCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        age:
+          type: integer
+          title: Age
+        sex:
+          type: string
+          title: Sex
+        height_cm:
+          type: number
+          title: Height Cm
+        activity_level:
+          type: number
+          title: Activity Level
+          default: 1.55
+        body_fat_pct:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Body Fat Pct
+      type: object
+      required:
+      - name
+      - age
+      - sex
+      - height_cm
+      title: UserCreate
+    UserOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        age:
+          type: integer
+          title: Age
+        sex:
+          type: string
+          title: Sex
+        height_cm:
+          type: number
+          title: Height Cm
+        activity_level:
+          type: number
+          title: Activity Level
+          default: 1.55
+        body_fat_pct:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Body Fat Pct
+        id:
+          type: integer
+          title: Id
+      type: object
+      required:
+      - name
+      - age
+      - sex
+      - height_cm
+      - id
+      title: UserOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    WorkoutCreate:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+        date:
+          type: string
+          format: date
+          title: Date
+        name:
+          type: string
+          title: Name
+        duration_minutes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Duration Minutes
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      type: object
+      required:
+      - user_id
+      - date
+      - name
+      title: WorkoutCreate
+    WorkoutOut:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+        date:
+          type: string
+          format: date
+          title: Date
+        name:
+          type: string
+          title: Name
+        duration_minutes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Duration Minutes
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+        id:
+          type: integer
+          title: Id
+        sets:
+          items:
+            $ref: '#/components/schemas/SetOut'
+          type: array
+          title: Sets
+          default: []
+      type: object
+      required:
+      - user_id
+      - date
+      - name
+      - id
+      title: WorkoutOut

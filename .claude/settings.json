@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install*)",
+      "Bash(pip install -r*)",
+      "Bash(uvicorn*)",
+      "Bash(python*)",
+      "Bash(pytest*)",
+      "Bash(cd backend*)",
+      "Bash(dir*)",
+      "Bash(ls*)",
+      "Bash(cat*)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git log*)"
+    ],
+    "deny": [
+      "Bash(rm -rf*)",
+      "Bash(rmdir /s*)",
+      "Bash(*--force*)",
+      "Bash(git push --force*)",
+      "Bash(DROP TABLE*)",
+      "Bash(DELETE FROM*)"
+    ]
+  }
+}

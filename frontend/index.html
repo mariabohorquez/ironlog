@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IronLog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Sidebar ──────────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">Iron<span>Log</span></div>
+    <nav>
+      <a href="#" data-page="dashboard">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="#" data-page="logger">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Log Workout
+      </a>
+      <a href="#" data-page="history">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        History
+      </a>
+      <a href="#" data-page="exercises">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5h11M6.5 17.5h11M3 12h18"/></svg>
+        Exercises
+      </a>
+      <a href="#" data-page="analytics">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Analytics
+      </a>
+      <a href="#" data-page="stats">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Stats & Goals
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ── Main content ──────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="page">
+      <div class="page-header">
+        <div><div class="page-title">Dashboard</div>
+          <div class="page-sub">Your weekly overview</div></div>
+        <button class="btn btn-primary" onclick="document.querySelector('[data-page=logger]').click()">+ Log Workout</button>
+      </div>
+      <div class="stats-row mb-16">
+
+        <!-- Sets This Week -->
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span class="stat-card-label">Sets this week</span>
+          </div>
+          <div class="stat-card-value" id="week-sets">—</div>
+          <div class="stat-card-delta" id="week-sets-delta"></div>
+        </div>
+
+        <!-- Body Weight -->
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <span class="stat-card-label">Body weight</span>
+          </div>
+          <div class="stat-card-row">
+            <div>
+              <div class="stat-value-inline">
+                <span class="stat-card-value" id="current-weight">—</span>
+                <span class="stat-unit" id="weight-unit" style="display:none">kg</span>
+              </div>
+              <div class="stat-card-delta" id="weight-delta"></div>
+            </div>
+            <canvas id="weight-sparkline" class="weight-sparkline" width="110" height="56"></canvas>
+          </div>
+        </div>
+
+        <!-- Workout Streak -->
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+            <span class="stat-card-label">Workout streak</span>
+          </div>
+          <div class="stat-value-inline">
+            <span class="stat-card-value text-accent" id="streak">0</span>
+            <span class="stat-unit-large" id="streak-unit">sessions</span>
+          </div>
+          <div class="stat-card-sub" id="streak-sub">Start your streak!</div>
+        </div>
+
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Weekly Muscle Volume</div>
+          <div class="heatmap-wrap" id="heatmap"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Recent Workouts</div>
+          <div id="recent-workouts"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logger -->
+    <div id="logger" class="page">
+      <div id="logger-start">
+        <div class="page-header" style="margin-bottom:28px">
+          <div>
+            <div class="page-title">Log Workout</div>
+            <div class="page-sub">Start fresh or pick a template</div>
+          </div>
+        </div>
+
+        <!-- Name + Start -->
+        <div class="log-start-card">
+          <div class="form-group" style="margin-bottom:16px">
+            <label class="form-label">Workout name</label>
+            <input id="workout-name-input" class="form-input log-name-input" placeholder="Push Day, Leg Day…">
+          </div>
+          <button id="start-workout-btn" class="btn btn-start-workout w-full">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            Start Empty Workout
+          </button>
+        </div>
+
+        <!-- Templates -->
+        <div class="template-section">
+          <div class="template-section-label">Quick Start from Template</div>
+          <div class="template-grid">
+
+            <div class="template-card" data-template="push">
+              <div class="template-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 5v14M18 5v14M2 8.5h4M2 15.5h4M18 8.5h4M18 15.5h4M6 12h12"/></svg>
+              </div>
+              <div class="template-name">Push Day</div>
+              <div class="template-meta">5 exercises</div>
+              <div class="template-exercises">Bench Press · Incline Bench Press · Overhead Press · Lateral Raise · Tricep Pushdown</div>
+            </div>
+
+            <div class="template-card" data-template="pull">
+              <div class="template-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 5v14M18 5v14M2 8.5h4M2 15.5h4M18 8.5h4M18 15.5h4M6 12h12"/></svg>
+              </div>
+              <div class="template-name">Pull Day</div>
+              <div class="template-meta">5 exercises</div>
+              <div class="template-exercises">Deadlift · Pull-up · Barbell Row · Bicep Curl · Face Pull</div>
+            </div>
+
+            <div class="template-card" data-template="legs">
+              <div class="template-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 5v14M18 5v14M2 8.5h4M2 15.5h4M18 8.5h4M18 15.5h4M6 12h12"/></svg>
+              </div>
+              <div class="template-name">Leg Day</div>
+              <div class="template-meta">5 exercises</div>
+              <div class="template-exercises">Barbell Back Squat · Romanian Deadlift · Leg Press · Leg Curl · Calf Raise</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="logger-active" style="display:none">
+        <div class="flex justify-between items-center mb-16">
+          <div class="page-title" id="active-workout-title"></div>
+          <div class="flex gap-8">
+            <button id="add-exercise-btn" class="btn btn-ghost">+ Exercise</button>
+            <button id="finish-workout-btn" class="btn btn-primary">Finish</button>
+          </div>
+        </div>
+        <div id="exercises-container"></div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div id="history" class="page">
+      <div class="page-header">
+        <div class="page-title">Workout History</div>
+      </div>
+      <div id="history-list"></div>
+    </div>
+
+    <!-- Exercises -->
+    <div id="exercises" class="page">
+      <div class="page-header">
+        <div class="page-title">Exercise Library</div>
+        <input id="ex-filter" class="form-input" style="max-width:280px" placeholder="Search exercises…">
+      </div>
+      <div class="cat-filter-bar">
+        <button class="cat-btn active" data-cat="all">All</button>
+        <button class="cat-btn" data-cat="push">Push</button>
+        <button class="cat-btn" data-cat="pull">Pull</button>
+        <button class="cat-btn" data-cat="legs">Legs</button>
+        <button class="cat-btn" data-cat="core">Core</button>
+      </div>
+      <div id="exercise-grid" class="exercise-grid-auto"></div>
+    </div>
+
+    <!-- Analytics -->
+    <div id="analytics" class="page">
+      <div class="page-header"><div class="page-title">Analytics</div></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Body Weight</div>
+          <div class="chart-wrap"><canvas id="weight-chart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Volume by Muscle (last 28 days)</div>
+          <div class="chart-wrap"><canvas id="volume-chart"></canvas></div>
+        </div>
+      </div>
+      <div class="card mt-16">
+        <div class="flex justify-between items-center mb-16">
+          <div class="card-title" style="margin:0">Estimated 1RM</div>
+          <select id="orm-exercise-select" class="form-select" style="max-width:240px"></select>
+        </div>
+        <div class="chart-wrap"><canvas id="orm-chart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div id="stats" class="page">
+      <div class="page-header"><div class="page-title">Stats & Goals</div></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Log Body Weight</div>
+          <form id="log-weight-form">
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input name="date" type="date" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Weight (kg)</label>
+              <input name="weight_kg" type="number" step="0.1" class="form-input" required>
+            </div>
+            <button class="btn btn-primary w-full">Log Weight</button>
+          </form>
+        </div>
+        <div class="card">
+          <div class="card-title">BMR / TDEE Calculator</div>
+          <form id="calc-form">
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Weight (kg)</label>
+                <input name="weight_kg" type="number" step="0.1" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Height (cm)</label>
+                <input name="height_cm" type="number" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Age</label>
+                <input name="age" type="number" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Sex</label>
+                <select name="sex" class="form-select">
+                  <option value="F">Female</option>
+                  <option value="M">Male</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Activity Level</label>
+              <select name="activity_level" class="form-select">
+                <option value="1.2">Sedentary (desk job, no exercise)</option>
+                <option value="1.375">Light (1-3 days/week)</option>
+                <option value="1.55" selected>Moderate (3-5 days/week)</option>
+                <option value="1.725">Active (6-7 days/week)</option>
+                <option value="1.9">Very Active (athlete)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Body Fat % (optional — enables Katch-McArdle)</label>
+              <input name="body_fat_pct" type="number" step="0.1" min="3" max="60" class="form-input" placeholder="e.g. 20">
+            </div>
+            <button class="btn btn-primary w-full">Calculate</button>
+          </form>
+          <div id="calc-result"></div>
+        </div>
+      </div>
+      <div class="card mt-16">
+        <div class="card-title">Weight Goal Projection</div>
+        <form id="proj-form">
+          <div class="grid-4">
+            <div class="form-group">
+              <label class="form-label">Current weight (kg)</label>
+              <input name="current_weight_kg" type="number" step="0.1" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Target weight (kg)</label>
+              <input name="target_weight_kg" type="number" step="0.1" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Weekly change (kg)</label>
+              <input name="weekly_change_kg" type="number" step="0.05" class="form-input" placeholder="−0.5 cut / +0.25 bulk" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">TDEE (kcal)</label>
+              <input name="tdee" type="number" class="form-input" required>
+            </div>
+          </div>
+          <button class="btn btn-primary">Project</button>
+        </form>
+        <div id="proj-result"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── User Setup Modal ─────────────────────────────────────────────── -->
+<div id="user-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Welcome to IronLog</div>
+    </div>
+    <p class="text-muted text-sm mb-16">Set up your profile to get started.</p>
+    <form id="user-form">
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input name="name" class="form-input" required placeholder="Your name">
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Age</label>
+          <input name="age" type="number" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sex</label>
+          <select name="sex" class="form-select">
+            <option value="F">Female</option>
+            <option value="M">Male</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Height (cm)</label>
+          <input name="height_cm" type="number" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Body Fat % (optional)</label>
+          <input name="body_fat_pct" type="number" step="0.1" class="form-input">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Activity Level</label>
+        <select name="activity_level" class="form-select">
+          <option value="1.2">Sedentary</option>
+          <option value="1.375">Light</option>
+          <option value="1.55" selected>Moderate</option>
+          <option value="1.725">Active</option>
+          <option value="1.9">Very Active</option>
+        </select>
+      </div>
+      <button class="btn btn-primary w-full">Get Started</button>
+    </form>
+  </div>
+</div>
+
+<!-- ── Exercise Picker Modal ─────────────────────────────────────────── -->
+<div id="ex-picker-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Exercise</div>
+      <button class="modal-close" id="ex-picker-close">×</button>
+    </div>
+    <input id="ex-picker-search" class="form-input mb-16" placeholder="Search…">
+    <div id="ex-picker-list" style="max-height:360px;overflow-y:auto"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script type="module" src="js/app.js?v=2"></script>
+</body>
+</html>
