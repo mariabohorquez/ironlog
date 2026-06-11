@@ -5,7 +5,8 @@
  * Hit test: muscle PNGs loaded into off-screen canvases; on mousemove the
  *           alpha channel is sampled to find which muscle is under the cursor.
  *
- * Images from MertenD/musclegroup-image-generator (MIT).
+ * Images from MertenD/musclegroup-image-generator (non-commercial source
+ * license — this project's usage is educational/non-commercial).
  */
 
 const REPO = "https://raw.githubusercontent.com/MertenD/musclegroup-image-generator/main/resources/images";

@@ -27,7 +27,7 @@ frontend/
   css/style.css    ← dark theme (MacroFactor-inspired)
   js/
     api.js         ← fetch wrapper, all API calls
-    heatmap.js     ← SVG muscle heatmap renderer (MIT paths)
+    heatmap.js     ← muscle heatmap renderer (MertenD image assets, non-commercial license)
     app.js         ← navigation, all page logic
 ```
 

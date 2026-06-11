@@ -4,10 +4,12 @@ A full-stack fitness tracking app: log workouts, visualize weekly muscle volume 
 
 Built with **FastAPI + SQLAlchemy + SQLite** on the backend and **vanilla HTML/CSS/JS** (no build step) on the frontend — developed end-to-end with [Claude Code](https://claude.com/claude-code).
 
+> Proyecto final para la materia **Ingeniería de Software Asistida por IA** de la **Especialización en Inteligencia Artificial, FIUBA** (Facultad de Ingeniería, Universidad de Buenos Aires).
+
 ## Features
 
 - **Dashboard** — weekly set count vs last week, body weight with trend sparkline, workout streak, muscle volume heatmap, recent workouts
-- **Muscle heatmap** — interactive SVG body diagram; muscles are colored by weekly training volume, with pixel-perfect hover tooltips (image assets from [MertenD/musclegroup-image-generator](https://github.com/MertenD/musclegroup-image-generator), MIT)
+- **Muscle heatmap** — interactive SVG body diagram; muscles are colored by weekly training volume, with pixel-perfect hover tooltips
 - **Workout logger** — start an empty session or quick-start from Push / Pull / Legs templates; per-set reps, weight, and RPE
 - **Exercise library** — 65 seeded exercises with illustrations, searchable and filterable by category (Push / Pull / Legs / Core)
 - **Analytics** — body weight chart, volume by muscle, estimated 1RM history (Epley & Brzycki)
@@ -61,6 +63,13 @@ This project is configured for agent-assisted development:
 - **`.claude/rules/`** — enforced conventions (explicit `response_model` on every route, type hints everywhere, all colors via CSS variables, no raw `fetch()` outside `api.js`, …)
 - **`.claude/settings.json`** — permission allow/deny lists (e.g. blocks `rm -rf`, `git push --force`)
 - **`/gen-workout <target>`** — custom slash command that builds a workout plan from the exercise database
+
+## Image attribution
+
+This is a **non-commercial, educational project**. Visual assets are used under the following terms:
+
+- **Muscle heatmap body images** — from [MertenD/musclegroup-image-generator](https://github.com/MertenD/musclegroup-image-generator), used under its non-commercial source license (personal and educational use permitted; commercial use requires the author's hosted API)
+- **Exercise illustrations** — hotlinked from [simplyfitness.com](https://www.simplyfitness.com) exercise guides, for demonstration purposes only; all rights remain with their owners
 
 ## Key formulas
 
