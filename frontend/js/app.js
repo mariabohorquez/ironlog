@@ -8,11 +8,18 @@ const navLinks = document.querySelectorAll(".sidebar nav a");
 function navigate(id) {
   pages.forEach(p => p.classList.toggle("active", p.id === id));
   navLinks.forEach(a => a.classList.toggle("active", a.dataset.page === id));
+  if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id);
   if (id === "dashboard") loadDashboard();
   if (id === "exercises") loadExercises();
   if (id === "history")   loadHistory();
   if (id === "analytics") loadAnalytics();
   if (id === "stats")     loadStats();
+}
+
+// Initial page from URL hash (deep-linking), falling back to dashboard
+function initialPage() {
+  const id = location.hash.slice(1);
+  return document.getElementById(id)?.classList.contains("page") ? id : "dashboard";
 }
 
 navLinks.forEach(a => a.addEventListener("click", e => {
@@ -683,5 +690,5 @@ function loadStats() {
 (async () => {
   await ensureUser();
   await initLogger();
-  navigate("dashboard");
+  navigate(initialPage());
 })();

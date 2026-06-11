@@ -6,6 +6,12 @@ Built with **FastAPI + SQLAlchemy + SQLite** on the backend and **vanilla HTML/C
 
 > Proyecto final para la materia **Ingeniería de Software Asistida por IA** de la **Especialización en Inteligencia Artificial, FIUBA** (Facultad de Ingeniería, Universidad de Buenos Aires).
 
+![Dashboard — weekly stats, muscle volume heatmap and recent workouts](docs/screenshots/dashboard.png)
+
+| Exercise library with category filter | Workout logger with quick-start templates |
+|:---:|:---:|
+| ![Exercise library](docs/screenshots/exercises.png) | ![Workout logger](docs/screenshots/logger.png) |
+
 ## Features
 
 - **Dashboard** — weekly set count vs last week, body weight with trend sparkline, workout streak, muscle volume heatmap, recent workouts
